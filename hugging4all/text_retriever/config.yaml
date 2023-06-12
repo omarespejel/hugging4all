@@ -1,0 +1,8 @@
+github:
+  repos:
+    - owner: "huggingface"
+      repo: "transformers"
+      path: "docs/source/en"
+    - owner: "huggingface"
+      repo: "blog"
+      path: "/"
