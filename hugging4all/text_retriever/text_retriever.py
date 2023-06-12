@@ -4,6 +4,8 @@ import os
 import json
 import datetime
 from termcolor import colored
+import tarfile
+from tqdm import tqdm
 
 # Load configurations from yaml file
 with open("text_retriever/config.yaml", 'r') as stream:
@@ -62,7 +64,7 @@ def process_directory(path, repo_info):
     # Check the status of the request
     if response.status_code == 200:
         files = response.json()
-        for file in files:
+        for file in tqdm(files, desc="Processing files", unit="file"):
             if file["type"] == "file" and (file["name"].endswith(".mdx") or file["name"].endswith(".md")):
                 print(colored(f"Downloading file: {file['name']}", "green"))
                 print(colored(f"Download URL: {file['download_url']}", "cyan"))
@@ -76,3 +78,11 @@ def process_directory(path, repo_info):
 # Iterate over all repos in the config
 for repo_info in config['github']['repos']:
     process_directory(repo_info['path'], repo_info)
+
+# After processing all directories, compress the jsonl file to tar
+with tarfile.open(f"data/docs_en_{current_date}.tar", "w") as tar:
+    tar.add(jsonl_file_name)
+    print(colored("Successfully compressed the JSONL file.", "green"))
+
+# Remove the original jsonl file after compressing it
+# os.remove(jsonl_file_name)

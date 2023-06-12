@@ -32,7 +32,7 @@ repositories:
     path: ""
 ```
 
-Once you have updated the `config.yaml` with the repositories you want to process, run the `text_retriever.py` script (here using `poetry run` from the root directory):
+Once you have updated the `config.yaml` with the repositories you want to process, run the `text_retriever.py` script (here using `poetry run` from the `hugging4all` directory):
 
 ```shell
 poetry run python python text_retriever/text_retriever.py
